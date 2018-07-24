@@ -42,6 +42,8 @@ const stateToPropertiesMapper = (state) => (
     }
 )
 
+
+
 const dispatcherToPropsMapper = dispatch => (
     {
         findAllWidgets: () => actions.findAllWidgets(dispatch),
