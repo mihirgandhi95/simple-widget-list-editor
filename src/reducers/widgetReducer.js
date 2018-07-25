@@ -88,7 +88,7 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) =>
             return {
                 widgets: [
                     ...state.widgets,
-                    {id: state.widgets.length+1 , text: 'New Widget',
+                    {id: (new Date()).getTime() , text: 'New Widget',
                     widgetType: 'Paragraph',
                     size: '2'}
                 ]
