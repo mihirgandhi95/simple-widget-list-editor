@@ -12,12 +12,16 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) =>
     switch(action.type){
 
 
-        case constants.PREVIEW:
-           /* newState = Object.assign({}, state)
-            newState.preview = !state.preview*/
+
+
+        case constants.HEADING_NAME_CHANGED:
             return {
-                widgets: state.widgets,
-                preview: !state.preview
+                widgets: state.widgets.map(widget => {
+                    if(widget.id === action.id){
+                        widget.name = action.name
+                    }
+                    return Object.assign({},widget)
+                })
             }
 
 
@@ -34,7 +38,7 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) =>
 
 
         case constants.HEADING_SIZE_CHANGED:
-           // alert('Heading Size Changed')
+            // alert('Heading Size Changed')
             return  {
                 widgets: state.widgets.map(widget => {
                     if(widget.id === action.id){
@@ -43,6 +47,138 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) =>
                     return Object.assign({},widget)
                 })
             }
+
+
+        case constants.PARAGRAPH_NAME_CHANGED:
+            return {
+                widgets: state.widgets.map(widget => {
+                    if(widget.id === action.id){
+                        widget.name = action.name
+                    }
+                    return Object.assign({},widget)
+                })
+            }
+
+
+        case constants.PARAGRAPH_TEXT_CHANGED:
+            // alert('Heading Size Changed')
+            return  {
+                widgets: state.widgets.map(widget => {
+                    if(widget.id === action.id){
+                        widget.text = action.text
+                    }
+                    return Object.assign({},widget)
+                })
+            }
+
+
+        case constants.PARAGRAPH_SIZE_CHANGED:
+            // alert('Heading Size Changed')
+            return  {
+                widgets: state.widgets.map(widget => {
+                    if(widget.id === action.id){
+                        widget.size = action.size
+                    }
+                    return Object.assign({},widget)
+                })
+            }
+
+        case constants.LIST_NAME_CHANGED:
+            return {
+                widgets: state.widgets.map(widget => {
+                    if(widget.id === action.id){
+                        widget.name = action.name
+                    }
+                    return Object.assign({},widget)
+                })
+            }
+
+
+        case constants.LIST_TEXT_CHANGED:
+            // alert('Heading Size Changed')
+            return  {
+                widgets: state.widgets.map(widget => {
+                    if(widget.id === action.id){
+                        widget.text = action.text
+                    }
+                    return Object.assign({},widget)
+                })
+            }
+
+        case constants.IMAGE_NAME_CHANGED:
+            return {
+                widgets: state.widgets.map(widget => {
+                    if(widget.id === action.id){
+                        widget.name = action.name
+                    }
+                    return Object.assign({},widget)
+                })
+            }
+
+
+        case constants.IMAGE_URL_CHANGED:
+            // alert('Heading Size Changed')
+            return  {
+                widgets: state.widgets.map(widget => {
+                    if(widget.id === action.id){
+                        widget.src = action.src
+                    }
+                    return Object.assign({},widget)
+                })
+            }
+
+        case constants.LINK_NAME_CHANGED:
+            return {
+                widgets: state.widgets.map(widget => {
+                    if(widget.id === action.id){
+                        widget.link = action.link
+                    }
+                    return Object.assign({},widget)
+                })
+            }
+
+
+        case constants.LINK_URL_CHANGED:
+            // alert('Heading Size Changed')
+            return  {
+                widgets: state.widgets.map(widget => {
+                    if(widget.id === action.id){
+                        widget.link = action.link
+                    }
+                    return Object.assign({},widget)
+                })
+            }
+
+
+        case constants.LIST_TYPE_CHANGED:
+            // alert('Heading Size Changed')
+            return  {
+                widgets: state.widgets.map(widget => {
+                    if(widget.id === action.id){
+                        widget.listType = action.listType
+                    }
+                    return Object.assign({},widget)
+                })
+            }
+
+
+        case constants.PREVIEW:
+           /* newState = Object.assign({}, state)
+            newState.preview = !state.preview*/
+            return {
+                widgets: state.widgets,
+                preview: !state.preview
+            }
+
+        case constants.MOVE_UP:
+            let widgets = state.widgets;
+            var state = JSON.parse(JSON.stringify(state));
+
+            let index = widgets.indexOf(action.widget);
+            widgets.move(index, index - 1);
+            widgets= widgets.splice(0);
+            state.widgets=widgets;
+            return state;
 
 
         case constants.SELECT_WIDGET_TYPE:
@@ -58,7 +194,7 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) =>
             return JSON.parse(JSON.stringify(newState))
 
         case constants.SAVE:
-
+            alert('saving to database!');
             fetch('http://localhost:8080/api/widget/save',{
                 method: 'post',
                 body: JSON.stringify(state.widgets),
@@ -69,6 +205,7 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) =>
 
 
             return state;
+
         case constants.FIND_ALL_WIDGETS:
             newState = Object.assign({}, state)
             newState.widgets = action.widgets;
@@ -76,6 +213,7 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) =>
             return{
                 widgets: action.widgets
             }
+
         case constants.DELETE_WIDGET:
             //alert('deleting widget');
             return {
@@ -88,9 +226,18 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) =>
             return {
                 widgets: [
                     ...state.widgets,
-                    {id: (new Date()).getTime() , text: 'New Widget',
-                    widgetType: 'Paragraph',
-                    size: '2'}
+                    {
+                        id:state.widgets.length+1 ,
+                        text: 'New Widget',
+                        widgetType: 'Paragraph',
+                        size: '2',
+                        name: 'Widget Name',
+                        listType: 'ordered',
+                        src: '',
+                        link: '',
+
+
+                    }
                 ]
             }
 
